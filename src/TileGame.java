@@ -34,14 +34,59 @@ public class TileGame {
 		for (int i = 0; i < currValues.length; i++) {
 			System.out.println("Shuffled Val = " + currValues[i]);
 		}
+		
+		
+		
+		
+		int tempPos = zeroPosition + 4;
+		if(canMoveUp(tempPos)) {
+			currValues[zeroPosition] = currValues[tempPos];
+			currValues[tempPos] = 0;
+		}
+		
+		
+		
 	}
 	
 	
 	
 	
+	private static boolean canMoveUp(int thisPosition) {
+		boolean canMove = false;
+		if (thisPosition - gridSize == zeroPosition) {
+			canMove = true;
+		}
+		
+		return canMove;
+	}
 	
 	
 	
+	private static boolean canMoveDown(int thisPosition) {
+		boolean canMove = false;
+		if (thisPosition + gridSize == zeroPosition) {
+			canMove = true;
+		}
+		
+		return canMove;
+	}
+	
+	private static boolean canMoveLeft(int thisPosition) {
+		boolean canMove = false;
+		if (thisPosition - 1 == zeroPosition) {
+			canMove = true;
+		}
+		
+		return canMove;
+	}
+	
+	private static boolean canMoveRight(int thisPosition) {
+		boolean canMove = false;
+		if (thisPosition + 1 == zeroPosition) {
+			canMove = true;
+		}
+		return canMove;
+	}
 	
 	
 	
