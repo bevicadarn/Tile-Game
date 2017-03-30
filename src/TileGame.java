@@ -39,9 +39,11 @@ public class TileGame {
 		
 		
 		int tempPos = zeroPosition + 4;
-		if(canMoveUp(tempPos)) {
+		if(canMoveUp(tempPos) || canMoveDown(tempPos) || canMoveLeft(tempPos) || canMoveRight(tempPos)) {
 			currValues[zeroPosition] = currValues[tempPos];
 			currValues[tempPos] = 0;
+		} else {
+			String invalid = "invalidMove";
 		}
 		
 		
@@ -56,7 +58,6 @@ public class TileGame {
 		if (thisPosition - gridSize == zeroPosition) {
 			canMove = true;
 		}
-		
 		return canMove;
 	}
 	
@@ -67,7 +68,6 @@ public class TileGame {
 		if (thisPosition + gridSize == zeroPosition) {
 			canMove = true;
 		}
-		
 		return canMove;
 	}
 	
@@ -76,7 +76,6 @@ public class TileGame {
 		if (thisPosition - 1 == zeroPosition) {
 			canMove = true;
 		}
-		
 		return canMove;
 	}
 	
