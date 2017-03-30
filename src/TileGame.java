@@ -42,6 +42,7 @@ public class TileGame {
 		if(canMoveUp(tempPos) || canMoveDown(tempPos) || canMoveLeft(tempPos) || canMoveRight(tempPos)) {
 			currValues[zeroPosition] = currValues[tempPos];
 			currValues[tempPos] = 0;
+			zeroPosition = tempPos;
 		} else {
 			String invalid = "invalidMove";
 		}
@@ -73,7 +74,7 @@ public class TileGame {
 	
 	private static boolean canMoveLeft(int thisPosition) {
 		boolean canMove = false;
-		if (thisPosition - 1 == zeroPosition) {
+		if (thisPosition - 1 == zeroPosition && ) {
 			canMove = true;
 		}
 		return canMove;
