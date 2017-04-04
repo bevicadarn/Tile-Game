@@ -1,22 +1,15 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
-public class TileGame3 {
-
+public class TileGame {
 
 	public static void main(String[] args) {
 		GamePanels gameForm = new GamePanels();
@@ -25,12 +18,8 @@ public class TileGame3 {
 		gameForm.setResizable(false);
 		gameForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-
-	}
-	
+	}	
 }	
-
 
 class GamePanels extends JFrame implements ActionListener {
 	
@@ -39,24 +28,14 @@ class GamePanels extends JFrame implements ActionListener {
 	 */
 	public GamePanels() {
 
-	
-
-	@SuppressWarnings("deprecation")
-
 		Font tableFont = new Font("Courier", Font.PLAIN, 12);
-
 		JPanel contentPane = new JPanel();
-
 		contentPane.setLayout(new GridLayout(5, 1, 2, 2));
-
 
 		final int FRAME_WIDTH = 500;
 		final int FRAME_HEIGHT = 400;
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		panelOne = createPanel();
-		// panelOne.setLayout (new GridLayout(1, 4));
-		// panelOne.setBackground(Color.lightGray);
-
 		panelTwo = createPanel();
 		panelThree = createPanel();
 		panelFour = createPanel();
@@ -72,31 +51,20 @@ class GamePanels extends JFrame implements ActionListener {
 		currValues = new int [16];
 		winValues = new int [16];
 		
-
-
-		JButton [] [] buttonPositions = new JButton [gridSize] [gridSize];
-		int [] nullCoordinate = new int [2];
-
 		for (int i = 0; i < 16; i++) {
-
 			gameButtons[i] = new JButton();
 			if (i < 15) {
-				gameButtons[i].setLabel(Integer.toString(i + 1));
+				gameButtons[i].setText(Integer.toString(i + 1));
 				currValues[i] = i + 1;
 				winValues[i] = i + 1;
 			} else{
-				gameButtons[i].setLabel("");
+				gameButtons[i].setText("");
 				zeroPosition = 15;
 				currValues[i] = 0;
 				winValues[i] = 0;
-
 			}
 			gameButtons[i].addActionListener(this);
-		
-		//	panelOne.add(gameButtons[i]);
 		}
-
-		// buttonPositions = setButtonPos(gameButtons);
 
 		// Add output box
 		panelFive = new JPanel();
@@ -121,7 +89,6 @@ class GamePanels extends JFrame implements ActionListener {
 
 		
 		// Add Panels to form
-		// updateButtons();
 
 		contentPane.add(panelOne);
 		contentPane.add(panelTwo);
@@ -130,41 +97,19 @@ class GamePanels extends JFrame implements ActionListener {
 		contentPane.add(panelFive);
 		setContentPane(contentPane);
 
-
-		
 	}
 
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
 	private static boolean canMoveUp(int thisPosition) {
 		boolean canMove = false;
-		System.out.println("Up - thisPosition = " + thisPosition);
-		System.out.println("gridSize = " + gridSize);
-		System.out.println("zeroPosition = " + zeroPosition);
+
 		if (thisPosition - gridSize == zeroPosition) {
 			canMove = true;
 		}
 		return canMove;
 	}
 	
-	
-	
 	private static boolean canMoveDown(int thisPosition) {
 		boolean canMove = false;
-		System.out.println("Down - thisPosition = " + thisPosition);
-		System.out.println("gridSize = " + gridSize);
-		System.out.println("zeroPosition = " + zeroPosition);
 		if (thisPosition + gridSize == zeroPosition) {
 			canMove = true;
 		}
@@ -173,10 +118,8 @@ class GamePanels extends JFrame implements ActionListener {
 	
 	private static boolean canMoveLeft(int thisPosition) {
 		boolean canMove = false;
-		System.out.println("Left - thisPosition = " + thisPosition);
-		System.out.println("gridSize = " + gridSize);
-		System.out.println("zeroPosition = " + zeroPosition);
-		if (thisPosition - 1 == zeroPosition) {
+		System.out.println((thisPosition) % gridSize);
+		if (thisPosition - 1 == zeroPosition && (thisPosition) % gridSize > 0 ) {
 			canMove = true;
 		}
 		return canMove;
@@ -184,19 +127,15 @@ class GamePanels extends JFrame implements ActionListener {
 	
 	private static boolean canMoveRight(int thisPosition) {
 		boolean canMove = false;
-		System.out.println("Right - thisPosition = " + thisPosition);
-		System.out.println("gridSize = " + gridSize);
-		System.out.println("zeroPosition = " + zeroPosition);
-		if (thisPosition + 1 == zeroPosition) {
+		System.out.println((thisPosition) % gridSize);
+		if (thisPosition + 1 == zeroPosition  && (thisPosition) % gridSize != 3 ) {
 			canMove = true;
 		}
 		return canMove;
 	}
 	
-	
-	
 	private static int [] shuffle(int [] toShuffle) {
-		for (int i = 0; i < 1001; i++) {
+		for (int i = 0; i < 550; i++) {
 			String direction = whichDirection();
 		
 			switch (direction) {
@@ -213,8 +152,6 @@ class GamePanels extends JFrame implements ActionListener {
 					toShuffle = shuffleRight(toShuffle);
 					break;
 			}
-			
-			
 		}
 		return toShuffle;
 	}
@@ -226,13 +163,12 @@ class GamePanels extends JFrame implements ActionListener {
 			toShuffle[targetPos] = 0;
 			zeroPosition = targetPos;
 		}
-		
 		return toShuffle;
 	}
 	
 	private static int [] shuffleDown(int [] toShuffle) {
 		int targetPos = zeroPosition + gridSize;
-		if(targetPos < maxPosition) {
+		if(targetPos < maxPosition + 1) {
 			toShuffle[zeroPosition] = toShuffle[targetPos];
 			toShuffle[targetPos] = 0;
 			zeroPosition = targetPos;
@@ -242,10 +178,9 @@ class GamePanels extends JFrame implements ActionListener {
 	
 	private static int [] shuffleLeft(int [] toShuffle) {
 		int targetPos = zeroPosition - 1;
-	
 		if(zeroPosition >= minPosition) {
 			// If there is no remainder then target pos is end of previous line and not valid
-			if (targetPos % gridSize > 0 ) {
+			if (zeroPosition % gridSize > 0) {
 				toShuffle[zeroPosition] = toShuffle[targetPos];
 				toShuffle[targetPos] = 0;
 				zeroPosition = targetPos;
@@ -256,12 +191,9 @@ class GamePanels extends JFrame implements ActionListener {
 	
 	private static int [] shuffleRight(int [] toShuffle) {
 		int targetPos = zeroPosition + 1;
-	/*	System.out.println("targetPos = " + targetPos);
-		System.out.println("zeroPosition = " + zeroPosition);
-		System.out.println("maxPosition = " + maxPosition); */
-		if(targetPos < maxPosition) {
-			
-			if (zeroPosition % gridSize > 0 ) {
+		if(targetPos < maxPosition + 1) {
+			// if no remainder then zero position is on the rightmost position so can't move
+			if (targetPos % gridSize > 0 ) {
 				toShuffle[zeroPosition] = toShuffle[targetPos];
 				toShuffle[targetPos] = 0;
 				zeroPosition = targetPos;
@@ -271,7 +203,6 @@ class GamePanels extends JFrame implements ActionListener {
 	}
 	
 	private static  String whichDirection() {
-	
 		String direction = "";
 		Random rn = new Random();
 		int whichWay = rn.nextInt(4);
@@ -300,30 +231,20 @@ class GamePanels extends JFrame implements ActionListener {
 	}
 	
 	
-	@SuppressWarnings("deprecation")
+
 	public void actionPerformed(ActionEvent thisEvent) {
 	
 		if (thisEvent.getSource() == shuffleButton) {
-			for (int i = 0; i < 16; i++)
-				System.out.println("Value " + currValues[i]);
 			
 			currValues = shuffle(currValues);
-			for (int i = 0; i < 16; i++)
-			System.out.println("Value " + currValues[i]);
-			// gameButtons = shuffle();
 			for (int i = 0; i < 16; i++) {
 				if (currValues[i] > 0) {
-					gameButtons[i].setLabel(Integer.toString(currValues[i]));
+					gameButtons[i].setText(Integer.toString(currValues[i]));
 				} else {
-					gameButtons[i].setLabel("");
+					gameButtons[i].setText("");
 				}
 			}
-			// buttonPositions = setButtonPos(gameButtons);
-	
-	
-			// addNumberPanels(boxPanels, buttonPositions);
-	
-	
+			textBox.setText("");
 	
 			getContentPane().revalidate();
 			getContentPane().repaint();
@@ -333,34 +254,40 @@ class GamePanels extends JFrame implements ActionListener {
 		} else {
 			JButton thisSource = (JButton) thisEvent.getSource();
 			int tempPos = zeroPosition;
+			int actualPos = tempPos;
+	
 			if (thisSource.getText() != "") {
 				tempPos = Integer.parseInt(thisSource.getText()) - 1;
+				for (int i = 0; i < gameButtons.length; i++){
+					if (gameButtons[i].getText() != "") {
+						if (tempPos == Integer.parseInt(gameButtons[i].getText()) - 1) {
+							actualPos = i;
+						}
+					}
+				}
 			}
 			
 			
-			if(canMoveUp(tempPos) || canMoveDown(tempPos) || canMoveLeft(tempPos) || canMoveRight(tempPos)) {
-				System.out.println("currValues = " + currValues);
-				System.out.println("zeroPosition = " + zeroPosition);
-				System.out.println("tempPos = " + tempPos);
+			if(canMoveUp(actualPos) || canMoveDown(actualPos) || canMoveLeft(actualPos) || canMoveRight(actualPos)) {
 				
-				currValues[zeroPosition] = currValues[tempPos];
-				gameButtons[zeroPosition].setLabel(Integer.toString(currValues[tempPos]));
-				currValues[tempPos] = 0;
-				gameButtons[tempPos].setLabel("");
-				zeroPosition = tempPos;
+				currValues[zeroPosition] = currValues[actualPos];
+				gameButtons[zeroPosition].setText(Integer.toString(currValues[actualPos]));
+				currValues[actualPos] = 0;
+				gameButtons[actualPos].setText("");
+				zeroPosition = actualPos;
+				textBox.setText("");
 				
 				if (checkWin(winValues, currValues)) {
 					textBox.setText("Congratulations, you have won!!!!!");
 				}
-				
 				
 				getContentPane().revalidate();
 				getContentPane().repaint();
 				getContentPane().revalidate();
 				
 			} else {
-				String invalid = "invalid Move";
-				textBox.setText(invalid + tempPos);
+				String invalid = "Invalid Move";
+				textBox.setText(invalid);
 			}
 			
 	
@@ -368,16 +295,12 @@ class GamePanels extends JFrame implements ActionListener {
 		}
 	}
 	
-
 	public JPanel createPanel() {
 		JPanel thisPanel = new JPanel();
 		thisPanel.setLayout (new GridLayout(1, 4));
-		thisPanel.setBackground(Color.lightGray);
+		thisPanel.setBackground(Color.yellow);
 		return thisPanel;
 	}
-	
-	
-	
 	
 	public void addNumberPanels(JPanel [] thesePanels, JButton [] gameButtons) {
 		JButton thisButton = null;
@@ -391,28 +314,15 @@ class GamePanels extends JFrame implements ActionListener {
 		}		
 	}
 
-	
-
 	private static int gridSize = 4;
 	private static int zeroPosition;
-	private static int maxPosition;
+	private static int maxPosition = 15;
 	private static int minPosition = 0;
-
-	private JButton [] [] buttonPositions;
-	private JLabel startLabel, endLabel, incrementLabel;
-    private JTextField startValue, endValue, incrementValue;
     private JButton [] gameButtons;
-    private JButton shuffleButton, tempButton;
+    private JButton shuffleButton;
     private JTextArea textBox;
     private JPanel contentPane, panelOne, panelTwo, panelThree, panelFour, panelFive;
     private JPanel [] boxPanels;
-    private int index, nullPosition;
-    private int [] nullCoordinate, winValues, currValues;
+    private int [] winValues, currValues;
 
 }
-
-
-	
-
-
-
